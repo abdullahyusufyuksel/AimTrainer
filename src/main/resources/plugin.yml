@@ -1,0 +1,9 @@
+name: AimTrainer
+version: 0.0.1
+main: com.halludba.aimtrainer.AimTrainer
+api-version: 1.19
+commands:
+  aimtrainer:
+    description: Opens the UI
+    usage: Add menu to open the menu.
+    permission: AimTrainer
