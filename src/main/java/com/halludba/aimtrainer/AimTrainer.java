@@ -3,6 +3,7 @@ package com.halludba.aimtrainer;
 import com.halludba.aimtrainer.commands.CommandControl;
 import com.halludba.aimtrainer.events.InteractEvent;
 import com.halludba.aimtrainer.events.MoveEvent;
+import com.halludba.aimtrainer.events.QuitEvent;
 import com.halludba.aimtrainer.gamemodes.CurrentSession;
 import com.halludba.aimtrainer.gamemodes.GridShot;
 import com.halludba.aimtrainer.gamemodes.Tracker;
@@ -32,6 +33,7 @@ public class AimTrainer extends JavaPlugin
         getServer().getPluginManager().registerEvents(this.UI, this);
         getServer().getPluginManager().registerEvents(new InteractEvent(this), this);
         getServer().getPluginManager().registerEvents(new MoveEvent(this), this);
+        getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
     }
     @Override
     public void onDisable()
@@ -42,7 +44,9 @@ public class AimTrainer extends JavaPlugin
             this.terminatePlayerSession(this.players.get(i));
         }
     }
-
+    public ArrayList<CurrentSession> getCurrentSessions() {
+        return currentSessions;
+    }
     public CurrentSession getCurrentSession(int index)
     {
         if(index == -1)
@@ -123,7 +127,7 @@ public class AimTrainer extends JavaPlugin
                     cr.tick();
                     if(cr.getRemainingSeconds() <= 0)
                     {
-                        aimTrainer.endCurrentSession(index);
+                        aimTrainer.endCurrentSession(aimTrainer.players.indexOf(cr.getPlayer()));
                         this.cancel();
                     }
                 }
@@ -154,7 +158,7 @@ public class AimTrainer extends JavaPlugin
                     cr.tick();
                     if(cr.getRemainingSeconds() <= 0)
                     {
-                        aimTrainer.endCurrentSession(index);
+                        aimTrainer.endCurrentSession(aimTrainer.players.indexOf(cr.getPlayer()));
                         this.cancel();
                     }
                 }

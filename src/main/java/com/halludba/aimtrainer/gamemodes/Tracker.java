@@ -76,6 +76,11 @@ public class Tracker extends CurrentSession
     {
         if(this.remainingSeconds.get() > 0)
         {
+            if(!this.originalLocation.getBlock().equals(this.player.getLocation().getBlock()))
+            {
+                this.player.teleport(this.originalLocation);
+                this.player.sendMessage(ChatColor.DARK_RED + "You cannot move from this position once the game has started!");
+            }
             this.remainingSeconds.set(60 - (System.currentTimeMillis() - this.startTime)/1000);
             this.scoreboard.getTeam("timeRemaining").setPrefix(ChatColor.AQUA + "Time Remaining:  " + (int) this.remainingSeconds.get());
             this.scoreboard.getTeam("targetsHit").setPrefix(ChatColor.GREEN + "Points:  " + this.points.get());
@@ -142,7 +147,6 @@ public class Tracker extends CurrentSession
     }
     public void runAway(int index)
     {
-//        BoundingBox b = new BoundingBox(this.blocksInFront.get(0).getX(), this.blocksInFront.get(0).getY(), this.blocksInFront.get(0).getZ(), this.blocksInFront.get(this.blocksInFront.size() - 1).getX(), this.blocksInFront.get(this.blocksInFront.size() - 1).getY(), this.blocksInFront.get(this.blocksInFront.size() - 1).getZ());
         if(index >= this.targets.size()) return;
         double xOrigin = Math.min(this.blocksInFront.get(0).getX(), this.blocksInFront.get(this.blocksInFront.size() - 1).getX());
         double zOrigin = Math.min(this.blocksInFront.get(0).getZ(), this.blocksInFront.get(this.blocksInFront.size() - 1).getZ());
@@ -150,7 +154,6 @@ public class Tracker extends CurrentSession
         double zDest = Math.max(this.blocksInFront.get(0).getZ(), this.blocksInFront.get(this.blocksInFront.size() - 1).getZ());
         Random rand = new Random();
         Location newLoc = new Location(this.player.getWorld(), rand.nextDouble(xOrigin, xDest), this.targets.get(index).getLocation().getY(), rand.nextDouble(zOrigin, zDest));
-//        -Math.cos(Math.toRadians(this.player.getLocation().getYaw())), 0,  -Math.sin(Math.toRadians(player.getLocation().getYaw()))
         this.whereIsTargetHeaded.put(index, newLoc);
     }
     public void moveTargets()

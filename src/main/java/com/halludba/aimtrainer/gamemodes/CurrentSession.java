@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class CurrentSession
 {
-
     protected Location originalLocation;
     protected boolean ranked = false;
     protected boolean terminated = false;
@@ -46,6 +45,10 @@ public abstract class CurrentSession
         this.points = new AtomicInteger(0);
         this.startTime = System.currentTimeMillis();
     }
+    public Player getPlayer() {
+        return player;
+    }
+
     public boolean isTerminated() {
         return terminated;
     }

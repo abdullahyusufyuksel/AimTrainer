@@ -71,6 +71,11 @@ public class GridShot extends CurrentSession
     {
         if(this.remainingSeconds.get() > 0)
         {
+            if(!this.originalLocation.getBlock().equals(this.player.getLocation().getBlock()))
+            {
+                this.player.teleport(this.originalLocation);
+                this.player.sendMessage(ChatColor.DARK_RED + "You cannot move from this position once the game has started!");
+            }
             this.remainingSeconds.set(60 - (System.currentTimeMillis() - this.startTime)/1000);
             this.scoreboard.getTeam("timeRemaining").setPrefix(ChatColor.AQUA + "Time Remaining:  " + (int) this.remainingSeconds.get());
             this.scoreboard.getTeam("targetsHit").setPrefix(ChatColor.GREEN + "Points:  " + this.points.get());
